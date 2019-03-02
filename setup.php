@@ -7,7 +7,7 @@
 	ini_set('display_errors', 'On');
 
 	// Make the main SQL connection:
-	$databaseSQL = mysqli_connect('localhost', 'dfrankel18', 'jordaniscool', 'dfrankel18');
+	$databaseSQL = mysqli_connect('localhost', 'username', 'password', 'database');
 	if (!$databaseSQL) { //Triggered if databaseSQL is null and shows error
 		trigger_error('Could not connect to MySQL: '.mysqli_connect_error() );
 	}

@@ -1,12 +1,12 @@
 <?php
 	require 'setup.php';
-	if (isset($_SESSION['usernamev3'])) { //Person is already logged in
+	if (isset($_SESSION['username'])) { //Person is already logged in
 		header('Location: member.php');
 		exit("You are already logged in. Redirecting to member page..."); //Automatically closes MySQL connection and sends to logged in page
 	}
 	if (isset($_POST["register"]) and fieldExist()) {
 		//Checks if user already exists
-		$checkUser =  mysqli_prepare($databaseSQL, "SELECT username FROM MySQL3 WHERE username=?;");
+		$checkUser =  mysqli_prepare($databaseSQL, "SELECT username FROM userDB WHERE username=?;");
 		mysqli_stmt_bind_param($checkUser, 's', $name);
 
 		$name = $_POST["username"]; //Grabs name and password entered from POST
@@ -16,7 +16,7 @@
 		$result = mysqli_stmt_get_result($checkUser);
 
 		if (!mysqli_num_rows($result)) { //Only creates user if query SELECT returns no rows (so username is not in use)
-			$checkUser =  mysqli_prepare($databaseSQL, "INSERT INTO MySQL3 (username, password) VALUES (?,?)");
+			$checkUser =  mysqli_prepare($databaseSQL, "INSERT INTO userDB (username, password) VALUES (?,?)");
 			mysqli_stmt_bind_param($checkUser, 'ss', $name, $password);
 
 			$name = $_POST["username"]; //Grabs name and password entered from POST after page redirect from home.html on submit

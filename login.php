@@ -1,14 +1,14 @@
 <?php
 	require 'setup.php';
 	
-	if (isset($_SESSION['usernamev3'])) { //Person is already logged in
+	if (isset($_SESSION['username'])) { //Person is already logged in
 		header('Location: member.php');
 		exit("You are already logged in. Redirecting to member page..."); //Automatically closes MySQL connection and sends to logged in page
 	}
 
 	if (isset($_POST["login"]) and fieldExist()) {
 		//Login code copied on 2/24/18 from MySQL2-BasicLogin
-		$checkUser =  mysqli_prepare($databaseSQL, "SELECT password FROM MySQL3 WHERE username=?;");
+		$checkUser =  mysqli_prepare($databaseSQL, "SELECT password FROM userDB WHERE username=?;");
 		mysqli_stmt_bind_param($checkUser, 's', $name);
 
 		$name = $_POST["username"]; //Grabs name and password entered from POST
@@ -20,7 +20,7 @@
 		mysqli_stmt_fetch($checkUser);
 		if (password_verify($_POST["passwrd"], $userPasswordHash)) {
 			echo "Logged in.";
-			$_SESSION['usernamev3'] = $name;
+			$_SESSION['username'] = $name;
 			header('Location: member.php');
 			exit("Welcome. Redirecting to member page..."); //Automatically closes MySQL connection and sends to logged in page
 		} else {
